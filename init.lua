@@ -1,5 +1,5 @@
 -- References to ./lua/
-
+require("users.first")
 -- Load global functions
 require("core.globals")
 -- Plugin management via lazy
