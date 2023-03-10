@@ -2,7 +2,8 @@ local M = {}
 
 -- theme: nightfox, tokyonight, tundra, kanagawa, oxocarbon; default is catppuccin
 -- refer to the themes settings file for different styles
-M.theme = "tokyonight"
+--M.theme = "tokyonight"
+M.theme = "nightfox"
 -- Toggle global status line
 M.global_statusline = true
 -- use rg instead of grep
@@ -62,6 +63,7 @@ M.lsp_servers = {
   "bashls",
   "dockerls",
   "jsonls",
+    "gopls",
   "ltex",
   "marksman",
   "pyright",

@@ -8,11 +8,26 @@ local M = {
     "hrsh7th/cmp-calc",
     "lukas-reineke/cmp-rg",
     "hrsh7th/cmp-nvim-lsp-signature-help",
+    { "tzachar/cmp-tabnine", build = "./install.sh" },
   },
   config = function()
     local cmp = require("cmp")
     local lspkind = require("lspkind")
+    local tabnine = require("cmp_tabnine.config")
 
+    tabnine:setup({
+      max_lines = 1000,
+      max_num_results = 20,
+      sort = true,
+      run_on_every_keystroke = true,
+      snippet_placeholder = "..",
+      ignored_file_types = {
+        -- default is not to ignore
+        -- uncomment to ignore in lua:
+        -- lua = true
+      },
+      show_prediction_strength = false,
+    })
     cmp.setup({
       formatting = {
         format = lspkind.cmp_format({
@@ -59,6 +74,7 @@ local M = {
       sources = {
         { name = "nvim_lsp" },
         { name = "nvim_lsp_signature_help" },
+        { name = "cmp_tabnine" },
         { name = "buffer", keyword_length = 5 },
         { name = "luasnip" },
         { name = "calc" },
