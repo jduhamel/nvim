@@ -39,7 +39,7 @@ local M = {
       vim.notify("Error loading lvim-org-utils")
     end
 
-    lvim_org_utils.setup()
+    lvim_org_utils.setup(nil)
   end,
 }
 

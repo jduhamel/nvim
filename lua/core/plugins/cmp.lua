@@ -8,12 +8,18 @@ local M = {
     "hrsh7th/cmp-calc",
     "lukas-reineke/cmp-rg",
     "hrsh7th/cmp-nvim-lsp-signature-help",
+    --    "github/copilot.nvim",
+    "zbirenbaum/copilot.lua",
+    { "zbirenbaum/copilot-cmp", after = { "copilot.lua" } },
     { "tzachar/cmp-tabnine", build = "./install.sh" },
   },
+
   config = function()
     local cmp = require("cmp")
     local lspkind = require("lspkind")
     local tabnine = require("cmp_tabnine.config")
+    local copilot = require("copilot")
+    local cmp_copilot = require("copilot_cmp")
 
     tabnine:setup({
       max_lines = 1000,
@@ -28,6 +34,14 @@ local M = {
       },
       show_prediction_strength = false,
     })
+
+    copilot.setup({
+      suggestion = { enabled = false },
+      panel = { enabled = false },
+    })
+
+    cmp_copilot.setup({})
+
     cmp.setup({
       formatting = {
         format = lspkind.cmp_format({
@@ -38,6 +52,7 @@ local M = {
             buffer = "BUF",
             rg = "RG",
             nvim_lsp = "LSP",
+            cmp_copilot = "GH",
             path = "PATH",
             luasnip = "SNIP",
             calc = "CALC",
@@ -75,6 +90,7 @@ local M = {
         { name = "nvim_lsp" },
         { name = "nvim_lsp_signature_help" },
         { name = "cmp_tabnine" },
+        { name = "copilot" },
         { name = "buffer", keyword_length = 5 },
         { name = "luasnip" },
         { name = "calc" },
