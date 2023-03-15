@@ -37,9 +37,10 @@ local M = {
     local l_status_ok, lvim_org_utils = pcall(require, "lvim-org-utils")
     if not l_status_ok then
       vim.notify("Error loading lvim-org-utils")
+            return
     end
 
-    lvim_org_utils.setup(nil)
+    lvim_org_utils.setup()
   end,
 }
 

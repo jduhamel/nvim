@@ -116,5 +116,8 @@ wk.register({
   -- hydra heads
   s = { "Search" },
   w = { "Windows" },
+  x = { name = "Emacs",
+    b = { "<cmd>Telescope buffers<cr>", "Buffers" },
+    },
   z = { "Spelling" },
 }, { prefix = "<leader>", mode = "n", {} })

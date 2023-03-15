@@ -10,13 +10,14 @@ nls.setup({
     }),
     nls.builtins.formatting.terraform_fmt,
     nls.builtins.formatting.black,
-    nls.builtins.formatting.goimports,
+       nls.builtins.formatting.goimports,
     nls.builtins.formatting.gofumpt,
     nls.builtins.formatting.latexindent.with({
       extra_args = { "-g", "/dev/null" }, -- https://github.com/cmhughes/latexindent.pl/releases/tag/V3.9.3
     }),
     nls.builtins.code_actions.shellcheck,
     nls.builtins.code_actions.gitsigns,
+    nls.builtins.formatting.sql_formatter,
     nls.builtins.formatting.shfmt,
     nls.builtins.diagnostics.ruff,
   },

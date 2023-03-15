@@ -6,7 +6,7 @@ local M = {
     "hrsh7th/cmp-path",
     "hrsh7th/cmp-cmdline",
     "hrsh7th/cmp-calc",
-    "lukas-reineke/cmp-rg",
+--    "lukas-reineke/cmp-rg",
     "hrsh7th/cmp-nvim-lsp-signature-help",
     --    "github/copilot.nvim",
     "zbirenbaum/copilot.lua",
@@ -21,6 +21,8 @@ local M = {
     local copilot = require("copilot")
     local cmp_copilot = require("copilot_cmp")
 
+   lspkind.init({ symbol_map = { copilot = "", }, })
+
     tabnine:setup({
       max_lines = 1000,
       max_num_results = 20,
@@ -32,34 +34,57 @@ local M = {
         -- uncomment to ignore in lua:
         -- lua = true
       },
-      show_prediction_strength = false,
+      show_prediction_strength = true,
     })
 
     copilot.setup({
-      suggestion = { enabled = false },
+            filetypes = {
+                javascript = true,
+                clojure = true,
+                go = true,
+                python = true,
+                typescript = true,
+            },
+        suggestion = { enabled = true },
       panel = { enabled = false },
     })
 
     cmp_copilot.setup({})
+    local source_mapping = {
+            buffer = "[Buf]",
+            rg = "[Rip]",
+            nvim_lsp = "[lsp]",
+            cmp_tabnine = "[T9]",
+            cmp_copilot = "[Gh]",
+            path = "[Path]",
+            luasnip = "[Snip]",
+            calc = "[Calc]",
+          }
 
     cmp.setup({
-      formatting = {
-        format = lspkind.cmp_format({
-          with_text = false,
-          maxwidth = 50,
-          mode = "symbol",
-          menu = {
-            buffer = "BUF",
-            rg = "RG",
-            nvim_lsp = "LSP",
-            cmp_copilot = "GH",
-            path = "PATH",
-            luasnip = "SNIP",
-            calc = "CALC",
-          },
-        }),
-      },
-      snippet = {
+	formatting = {
+		format = function(entry, vim_item)
+			-- if you have lspkind installed, you can use it like
+			-- in the following line:
+	 		vim_item.kind = lspkind.symbolic(vim_item.kind, {mode = "symbol"})
+	 		vim_item.menu = source_mapping[entry.source.name]
+	 		if entry.source.name == "cmp_tabnine" then
+	 			local detail = (entry.completion_item.data or {}).detail
+	 			vim_item.kind = ""
+	 			if detail and detail:find('.*%%.*') then
+	 				vim_item.kind = vim_item.kind .. ' ' .. detail
+	 			end
+
+	 			if (entry.completion_item.data or {}).multiline then
+	 				vim_item.kind = vim_item.kind .. ' ' .. '[ML]'
+	 			end
+	 		end
+	 		local maxwidth = 80
+	 		vim_item.abbr = string.sub(vim_item.abbr, 1, maxwidth)
+	 		return vim_item
+	  end,
+	},
+        snippet = {
         expand = function(args)
           require("luasnip").lsp_expand(args.body)
         end,
@@ -87,9 +112,10 @@ local M = {
         end, { "i", "s" }),
       },
       sources = {
+        { name = "cmp_tabnine" },
+        { name = "copilot" },
         { name = "nvim_lsp" },
         { name = "nvim_lsp_signature_help" },
-        { name = "cmp_tabnine" },
         { name = "copilot" },
         { name = "buffer", keyword_length = 5 },
         { name = "luasnip" },

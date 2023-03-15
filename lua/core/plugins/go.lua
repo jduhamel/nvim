@@ -23,7 +23,7 @@ local M = {
       comment_placeholder = "", -- comment_placeholder your cool placeholder e.g. ﳑ       
       icons = { breakpoint = icons.ui.Yoga, currentpos = icons.ui.RunningMan },
       verbose = false, -- output loginf in messages
-      lsp_cfg = true, -- true: use non-default gopls setup specified in go/lsp.lua
+      lsp_cfg = { settings={gopls={buildFlags = {'-tags', 'integration'}}}}, -- true: use non-default gopls setup specified in go/lsp.lua
       -- false: do nothing
       -- if lsp_cfg is a table, merge table with with non-default gopls setup in go/lsp.lua, e.g.
       --   lsp_cfg = {settings={gopls={matcher='CaseInsensitive', ['local'] = 'your_local_module_path', gofumpt = true }}}
@@ -125,7 +125,7 @@ local M = {
       -- false: do not use keymap in go/dap.lua.  you must define your own.
       dap_debug_gui = false, -- set to true to enable dap gui, highly recommended
       dap_debug_vt = false, -- set to true to enable dap virtual text
-      build_tags = "", -- set default build tags
+      --build_tags = "", -- set default build tags
       textobjects = true, -- enable default text jobects through treesittter-text-objects
       test_runner = "go", -- richgo, go test, richgo, dlv, ginkgo
       run_in_floaterm = false, -- set to true to run in float window.
